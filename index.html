@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>شیمی‌لند | دنیای شگفت‌انگیز شیمی</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; font-family: Tahoma, sans-serif; }
+  body { background: #0a0e27; color: #fff; line-height: 1.8; }
+
+  header {
+    position: fixed; top: 0; width: 100%; z-index: 100;
+    background: rgba(10,14,39,0.95); backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(77,208,225,0.2); padding: 1rem 0;
+  }
+  nav {
+    max-width: 1200px; margin: auto; padding: 0 2rem;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .logo { font-size: 1.5rem; color: #4dd0e1; font-weight: bold; }
+  .menu { display: flex; gap: 2rem; list-style: none; }
+  .menu a { color: #fff; text-decoration: none; transition: 0.3s; }
+  .menu a:hover { color: #4dd0e1; }
+
+  .hero {
+    min-height: 100vh; display: flex; flex-direction: column;
+    align-items: center; justify-content: center; text-align: center;
+    padding: 6rem 2rem 2rem;
+  }
+  .hero h1 {
+    font-size: 3rem; margin-bottom: 1rem;
+    background: linear-gradient(135deg, #4dd0e1, #7c4dff, #ff4081);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  .hero p { color: #b0b8d4; font-size: 1.2rem; margin-bottom: 2rem; }
+  .hero button {
+    padding: 1rem 2.5rem; border: none; border-radius: 50px;
+    background: linear-gradient(135deg, #4dd0e1, #7c4dff);
+    color: #fff; font-size: 1rem; cursor: pointer; transition: 0.3s;
+  }
+  .hero button:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(124,77,255,0.4); }
+
+  .section { padding: 5rem 2rem; max-width: 1200px; margin: auto; }
+  .section h2 { text-align: center; font-size: 2.5rem; color: #4dd0e1; margin-bottom: 1rem; }
+  .subtitle { text-align: center; color: #b0b8d4; margin-bottom: 3rem; }
+
+  .periodic {
+    display: grid; grid-template-columns: repeat(18, 1fr);
+    gap: 4px; direction: ltr; max-width: 1100px; margin: auto;
+  }
+  .element {
+    aspect-ratio: 1; display: flex; flex-direction: column;
+    align-items: center; justify-content: center; border-radius: 6px;
+    cursor: pointer; transition: 0.2s; padding: 2px;
+    font-size: 0.7rem; border: 1px solid rgba(255,255,255,0.1);
+  }
+  .element:hover { transform: scale(1.15); z-index: 10; box-shadow: 0 0 20px currentColor; }
+  .element .sym { font-size: 1rem; font-weight: bold; }
+  .element .num { font-size: 0.6rem; opacity: 0.8; }
+  .element .nm { font-size: 0.55rem; opacity: 0.8; }
+
+  .nافلز { background: linear-gradient(135deg,#4caf50,#2e7d32); }
+  .گازنجیب { background: linear-gradient(135deg,#9c27b0,#6a1b9a); }
+  .قلیایی { background: linear-gradient(135deg,#f44336,#c62828); }
+  .قلیاییخاکی { background: linear-gradient(135deg,#ff9800,#e65100); }
+  .شبهفلز { background: linear-gradient(135deg,#795548,#4e342e); }
+  .هالوژن { background: linear-gradient(135deg,#00bcd4,#00838f); }
+  .پسگذار { background: linear-gradient(135deg,#607d8b,#37474f); }
+
+  .reactions {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(250px,1fr));
+    gap: 2rem; margin-top: 2rem;
+  }
+  .card {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(77,208,225,0.2);
+    border-radius: 15px; padding: 2rem; text-align: center;
+    transition: 0.3s;
+  }
+  .card:hover {
+    transform: translateY(-10px); border-color: #4dd0e1;
+    box-shadow: 0 20px 40px rgba(77,208,225,0.2);
+  }
+  .card .icon { font-size: 3rem; margin-bottom: 1rem; }
+  .card h3 { color: #4dd0e1; margin-bottom: 1rem; }
+  .card .formula {
+    font-family: monospace; direction: ltr; background: rgba(0,0,0,0.3);
+    padding: 0.8rem; border-radius: 8px; color: #7c4dff; font-weight: bold;
+    margin-bottom: 1rem;
+  }
+
+  .about-text {
+    text-align: center; max-width: 700px; margin: 0 auto 3rem;
+    color: #b0b8d4; font-size: 1.1rem;
+  }
+  .stats { display: flex; justify-content: center; gap: 4rem; flex-wrap: wrap; }
+  .stat { text-align: center; }
+  .stat strong {
+    display: block; font-size: 3rem;
+    background: linear-gradient(135deg, #4dd0e1, #7c4dff);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  }
+
+  footer {
+    text-align: center; padding: 2rem; color: #b0b8d4;
+    border-top: 1px solid rgba(77,208,225,0.2); margin-top: 3rem;
+  }
+
+  .modal {
+    display: none; position: fixed; inset: 0; z-index: 200;
+    background: rgba(0,0,0,0.8); backdrop-filter: blur(5px);
+    justify-content: center; align-items: center;
+  }
+  .modal.active { display: flex; }
+  .modal-box {
+    background: linear-gradient(135deg,#1a1f3a,#0a0e27);
+    padding: 3rem; border-radius: 20px; max-width: 500px; width: 90%;
+    border: 1px solid rgba(77,208,225,0.3); position: relative; text-align: center;
+  }
+  .modal-box .close {
+    position: absolute; top: 1rem; left: 1rem;
+    font-size: 2rem; cursor: pointer; color: #4dd0e1;
+  }
+  .modal-box .big-sym { font-size: 5rem; font-weight: bold; color: #4dd0e1; }
+  .modal-box .m-name { font-size: 1.8rem; margin: 1rem 0; }
+  .modal-info {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;
+    margin-top: 2rem; text-align: right;
+  }
+  .modal-info div { background: rgba(255,255,255,0.05); padding: 0.8rem; border-radius: 8px; }
+  .modal-info span { color: #7c4dff; font-size: 0.85rem; display: block; }
+
+  @media (max-width: 768px) {
+    .hero h1 { font-size: 2rem; }
+    .menu { gap: 1rem; font-size: 0.85rem; }
+    .element .nm { display: none; }
+    .stats { gap: 2rem; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <nav>
+    <div class="logo">⚗️ شیمی‌لند</div>
+    <ul class="menu">
+      <li><a href="#home">خانه</a></li>
+      <li><a href="#elements">عناصر</a></li>
+      <li><a href="#reactions">واکنش‌ها</a></li>
+      <li><a href="#about">درباره ما</a></li>
+    </ul>
+  </nav>
+</header>
+
+<section id="home" class="hero">
+  <h1>به دنیای شیمی خوش آمدید</h1>
+  <p>کشف رازهای اتم‌ها، مولکول‌ها و واکنش‌های شیمیایی</p>
+  <button onclick="document.getElementById('elements').scrollIntoView({behavior:'smooth'})">
+    شروع کاوش
+  </button>
+</section>
+
+<section id="elements" class="section">
+  <h2>جدول تناوبی عناصر</h2>
+  <p class="subtitle">روی هر عنصر کلیک کنید تا اطلاعات آن را ببینید</p>
+  <div class="periodic" id="periodic"></div>
+</section>
+
+<section id="reactions" class="section">
+  <h2>آزمایش‌های شیمیایی</h2>
+  <p class="subtitle">چند واکنش معروف شیمی</p>
+  <div class="reactions">
+    <div class="card">
+      <div class="icon">💧</div>
+      <h3>تجزیه آب</h3>
+      <div class="formula">2H₂O → 2H₂ + O₂</div>
+      <small>تجزیه آب به هیدروژن و اکسیژن</small>
+    </div>
+    <div class="card">
+      <div class="icon">🔥</div>
+      <h3>سوختن متان</h3>
+      <div class="formula">CH₄ + 2O₂ → CO₂ + 2H₂O</div>
+      <small>واکنش احتراق کامل</small>
+    </div>
+    <div class="card">
+      <div class="icon">⚡</div>
+      <h3>سنتز آمونیاک</h3>
+      <div class="formula">N₂ + 3H₂ ⇌ 2NH₃</div>
+      <small>فرایند هابر-بوش</small>
+    </div>
+    <div class="card">
+      <div class="icon">🧪</div>
+      <h3>خنثی‌سازی</h3>
+      <div class="formula">HCl + NaOH → NaCl + H₂O</div>
+      <small>واکنش اسید و باز</small>
+    </div>
+  </div>
+</section>
+
+<section id="about" class="section">
+  <h2>درباره شیمی‌لند</h2>
+  <p class="about-text">
+    شیمی‌لند یک پلتفرم آموزشی برای یادگیری آسان و جذاب شیمی است.
+    از ساختار اتم گرفته تا واکنش‌های پیچیده، همه چیز اینجاست.
+  </p>
+  <div class="stats">
+    <div class="stat"><strong>۱۱۸</strong><span>عنصر</span></div>
+    <div class="stat"><strong>∞</strong><span>واکنش</span></div>
+    <div class="stat"><strong>۱۰۰۰+</strong><span>مولکول</span></div>
+  </div>
+</section>
+
+<div class="modal" id="modal">
+  <div class="modal-box">
+    <span class="close" onclick="closeModal()">&times;</span>
+    <div id="modalContent"></div>
+  </div>
+</div>
+
+<footer>
+  <p>© ۱۴۰۳ شیمی‌لند — ساخته شده با ❤️ و علم</p>
+</footer>
+
+<script>
+  const elements = [
+    { num:1,  sym:'H',  name:'هیدروژن',   mass:'1.008',   cat:'نافلز',       row:1, col:1 },
+    { num:2,  sym:'He', name:'هلیوم',     mass:'4.003',   cat:'گازنجیب',     row:1, col:18 },
+    { num:3,  sym:'Li', name:'لیتیوم',    mass:'6.94',    cat:'قلیایی',      row:2, col:1 },
+    { num:4,  sym:'Be', name:'بریلیوم',   mass:'9.012',   cat:'قلیاییخاکی',  row:2, col:2 },
+    { num:5,  sym:'B',  name:'بور',       mass:'10.81',   cat:'شبهفلز',      row:2, col:13 },
+    { num:6,  sym:'C',  name:'کربن',      mass:'12.011',  cat:'نافلز',       row:2, col:14 },
+    { num:7,  sym:'N',  name:'نیتروژن',   mass:'14.007',  cat:'نافلز',       row:2, col:15 },
+    { num:8,  sym:'O',  name:'اکسیژن',    mass:'15.999',  cat:'نافلز',       row:2, col:16 },
+    { num:9,  sym:'F',  name:'فلوئور',    mass:'18.998',  cat:'هالوژن',      row:2, col:17 },
+    { num:10, sym:'Ne', name:'نئون',      mass:'20.180',  cat:'گازنجیب',     row:2, col:18 },
+    { num:11, sym:'Na', name:'سدیم',      mass:'22.990',  cat:'قلیایی',      row:3, col:1 },
+    { num:12, sym:'Mg', name:'منیزیم',    mass:'24.305',  cat:'قلیاییخاکی',  row:3, col:2 },
+    { num:13, sym:'Al', name:'آلومینیوم', mass:'26.982',  cat:'پسگذار',      row:3, col:13 },
+    { num:14, sym:'Si', name:'سیلیسیم',   mass:'28.086',  cat:'شبهفلز',      row:3, col:14 },
+    { num:15, sym:'P',  name:'فسفر',      mass:'30.974',  cat:'نافلز',       row:3, col:15 },
+    { num:16, sym:'S',  name:'گوگرد',     mass:'32.06',   cat:'نافلز',       row:3, col:16 },
+    { num:17, sym:'Cl', name:'کلر',       mass:'35.45',   cat:'هالوژن',      row:3, col:17 },
+    { num:18, sym:'Ar', name:'آرگون',     mass:'39.948',  cat:'گازنجیب',     row:3, col:18 }
+  ];
+
+  const periodic = document.getElementById('periodic');
+  elements.forEach(el => {
+    const div = document.createElement('div');
+    div.className = 'element ' + el.cat;
+    div.style.gridRow = el.row;
+    div.style.gridColumn = el.col;
+    div.innerHTML =
+      '<div class="num">' + el.num + '</div>' +
+      '<div class="sym">' + el.sym + '</div>' +
+      '<div class="nm">' + el.name + '</div>';
+    div.onclick = () => showElement(el);
+    periodic.appendChild(div);
+  });
+
+  function showElement(el) {
+    document.getElementById('modalContent').innerHTML =
+      '<div class="big-sym">' + el.sym + '</div>' +
+      '<div class="m-name">' + el.name + '</div>' +
+      '<div class="modal-info">' +
+        '<div><span>عدد اتمی</span><strong>' + el.num + '</strong></div>' +
+        '<div><span>جرم اتمی</span><strong>' + el.mass + '</strong></div>' +
+        '<div><span>نماد</span><strong>' + el.sym + '</strong></div>' +
+        '<div><span>دسته</span><strong>' + el.cat + '</strong></div>' +
+      '</div>';
+    document.getElementById('modal').classList.add('active');
+  }
+
+  function closeModal() {
+    document.getElementById('modal').classList.remove('active');
+  }
+
+  document.getElementById('modal').onclick = e => {
+    if (e.target.id === 'modal') closeModal();
+  };
+</script>
+
+</body>
+</html>
